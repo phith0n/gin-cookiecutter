@@ -1,26 +1,17 @@
-# cookiecutter-golang-gin
+# Gin-Cookiecutter
 
-This sets up a Golang Gin web application with a health check, basic test, docker and JSON logging
+This sets up a Golang Gin web application with JSON logging (based on zap)
 
-## Prerequisites 
+## Prerequisites
 
- Install cookiecutter
-```
-sudo pip install cookiecutter
-```
-
-## Using 
+Install cookiecutter
 
 ```
-cookiecutter https://github.com/shokunin/cookiecutter-golang-gin.git
+pip install cookiecutter
 ```
 
-Answer the questions
-
-cd into the app directory and run
+## Using
 
 ```
-make
-./APPLICATION_NAME
-curl localhost:8080/health
+cookiecutter https://github.com/phith0n/gin-cookiecutter
 ```
