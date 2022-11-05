@@ -1,6 +1,6 @@
 # Gin-Cookiecutter
 
-This sets up a Golang Gin web application with JSON logging (based on zap)
+This template sets up a Golang Gin web application with JSON logging (based on zap).
 
 ## Prerequisites
 
