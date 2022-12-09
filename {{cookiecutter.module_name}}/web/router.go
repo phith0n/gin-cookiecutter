@@ -1,8 +1,8 @@
 package web
 
 import (
-	"{{cookiecutter.module_name}}/logging"
 	"time"
+	"{{cookiecutter.module_name}}/logging"
 
 	ginzap "github.com/gin-contrib/zap"
 	"github.com/gin-gonic/gin"
