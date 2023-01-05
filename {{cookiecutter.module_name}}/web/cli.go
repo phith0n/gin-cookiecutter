@@ -7,7 +7,7 @@ import (
 
 var WebCommand = &cli.Command{
 	Name:  "webserver",
-	Usage: "",
+	Usage: "start the webserver",
 	Action: func(c *cli.Context) error {
 		listen := c.String("listen")
 		if listen != "" {

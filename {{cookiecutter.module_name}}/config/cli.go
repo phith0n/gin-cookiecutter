@@ -1,6 +1,7 @@
 package config
 
 import (
+	"gopkg.in/yaml.v2"
 	"os"
 	"{{cookiecutter.module_name}}/utils"
 
@@ -19,6 +20,7 @@ var ConfigCommand = &cli.Command{
 
 		config := &Config{
 			WebAddr: ":8080",
+			DatabaseURL: "postgres://postgres:postgres@127.0.0.1:5432/example",
 		}
 
 		data, err := yaml.Marshal(config)

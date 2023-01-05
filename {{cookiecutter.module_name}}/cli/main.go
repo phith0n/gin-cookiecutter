@@ -21,6 +21,8 @@ func main() {
 		Usage: "",
 		Commands: []*cli.Command{
 			web.WebCommand,
+			db.MigrateCommand,
+			config.ConfigCommand,
 		},
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
