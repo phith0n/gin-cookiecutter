@@ -1,12 +1,15 @@
 package main
 
 import (
+	"{{cookiecutter.module_name}}/config"
+	"{{cookiecutter.module_name}}/db"
 	"{{cookiecutter.module_name}}/logging"
 	"{{cookiecutter.module_name}}/web"
 	"log"
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/thoas/go-funk"
 	"github.com/urfave/cli/v2"
 )
 
@@ -27,11 +30,17 @@ func main() {
 				Value:   false,
 			},
 		},
-		Before: func(context *cli.Context) error {
-			debug := context.Bool("debug")
+		Before: func(c *cli.Context) error {
+			debug := c.Bool("debug")
 			err := logging.InitLogger(debug)
 			if err != nil {
 				return err
+			}
+			logger.Infof("debug mode = %v", debug)
+
+			// exit before function and generate initial config file
+			if funk.ContainsString(os.Args, "genconfig") {
+				return nil
 			}
 
 			if debug {
@@ -40,7 +49,16 @@ func main() {
 				gin.SetMode(gin.ReleaseMode)
 			}
 
-			logger.Infof("debug mode = %v", debug)
+			configFile := c.String("config")
+			err = config.InitConfig(configFile)
+			if err != nil {
+				return cli.Exit("failed to load config", 1)
+			}
+
+			err = db.InitPostgres(config.GlobalConfig.DatabaseURL, debug)
+			if err != nil {
+				return cli.Exit("failed to initial PostgreSQL database", 1)
+			}
 			return nil
 		},
 	}

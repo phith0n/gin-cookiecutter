@@ -1,14 +1,20 @@
 package web
 
-import "github.com/urfave/cli/v2"
+import (
+	"github.com/urfave/cli/v2"
+	"{{cookiecutter.module_name}}/config"
+)
 
 var WebCommand = &cli.Command{
 	Name:  "webserver",
 	Usage: "",
 	Action: func(c *cli.Context) error {
 		listen := c.String("listen")
+		if listen != "" {
+			config.GlobalConfig.WebAddr = listen
+		}
 
-		return StartGin(listen)
+		return StartGin(config.GlobalConfig.WebAddr)
 	},
 	Flags: []cli.Flag{
 		&cli.StringFlag{

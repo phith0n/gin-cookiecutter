@@ -1,6 +1,7 @@
 package config
 
 import (
+	"gopkg.in/yaml.v2"
 	"os"
 	"{{cookiecutter.module_name}}/logging"
 
@@ -11,7 +12,8 @@ var logger = logging.GetSugar()
 var GlobalConfig Config
 
 type Config struct {
-	WebAddr string `yaml:"web_addr"`
+	WebAddr     string `yaml:"web_addr"`
+	DatabaseURL string `yaml:"database_url"`
 }
 
 func InitConfig(filename string) error {
