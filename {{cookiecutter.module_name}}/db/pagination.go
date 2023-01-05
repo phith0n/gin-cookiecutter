@@ -1,9 +1,10 @@
 package db
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
-	"strconv"
 )
 
 type Pagination struct {

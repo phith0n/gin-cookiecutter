@@ -3,6 +3,8 @@ package config
 import (
 	"os"
 	"{{cookiecutter.module_name}}/logging"
+
+	"gopkg.in/yaml.v3"
 )
 
 var logger = logging.GetSugar()

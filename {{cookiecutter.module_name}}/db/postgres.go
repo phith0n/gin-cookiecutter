@@ -2,10 +2,11 @@ package db
 
 import (
 	"{{cookiecutter.module_name}}/logging"
+	"time"
+
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	dbLogger "gorm.io/gorm/logger"
-	"time"
 )
 
 var logger = logging.GetSugar()

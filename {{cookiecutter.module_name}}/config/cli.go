@@ -3,6 +3,9 @@ package config
 import (
 	"os"
 	"{{cookiecutter.module_name}}/utils"
+
+	"github.com/urfave/cli/v2"
+	"gopkg.in/yaml.v3"
 )
 
 var ConfigCommand = &cli.Command{
