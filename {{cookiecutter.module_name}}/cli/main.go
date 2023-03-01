@@ -31,6 +31,12 @@ func main() {
 				Usage:   "enable debug mode",
 				Value:   false,
 			},
+			&cli.StringFlag{
+				Name:    "config",
+				Aliases: []string{"c"},
+				Usage:   "config filename",
+				Value:   "config.yaml",
+			},
 		},
 		Before: func(c *cli.Context) error {
 			debug := c.Bool("debug")
