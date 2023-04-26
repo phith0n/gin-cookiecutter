@@ -1,7 +1,6 @@
 package config
 
 import (
-	"gopkg.in/yaml.v2"
 	"os"
 	"{{cookiecutter.module_name}}/utils"
 

@@ -62,7 +62,7 @@ func NewZapLogger(debug bool) (*zap.Logger, error) {
 		LineEnding:       zapcore.DefaultLineEnding,
 		EncodeLevel:      zapcore.CapitalColorLevelEncoder,
 		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-			enc.AppendString(t.Format("2006-01-02 15:04:05"))
+			enc.AppendString(t.Format(time.RFC3339))
 		},
 		EncodeName: func(loggerName string, enc zapcore.PrimitiveArrayEncoder) {
 			// Print logger name in cyan (ANSI code 36).

@@ -1,16 +1,14 @@
 package main
 
 import (
+	"log"
+	"os"
 	"{{cookiecutter.module_name}}/config"
 	"{{cookiecutter.module_name}}/db"
 	"{{cookiecutter.module_name}}/logging"
 	"{{cookiecutter.module_name}}/web"
-	"log"
-	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/thoas/go-funk"
-	"github.com/urfave/cli/v2"
 )
 
 var logger = logging.GetSugar()
