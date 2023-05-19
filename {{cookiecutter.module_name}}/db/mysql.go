@@ -3,7 +3,7 @@ package db
 import (
 	"time"
 
-	"spctl3/logging"
+	"{{cookiecutter.module_name}}/logging"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
