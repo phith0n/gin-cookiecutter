@@ -1,13 +1,11 @@
 package db
-{% if cookiecutter.database == "postgres" %}
+{% if cookiecutter.database == "mysql" %}
 import (
-	"fmt"
-	"regexp"
-	"{{cookiecutter.module_name}}/logging"
 	"time"
 
+	"heimdall/logging"
+
 	"gorm.io/driver/mysql"
-	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	dbLogger "gorm.io/gorm/logger"
 )

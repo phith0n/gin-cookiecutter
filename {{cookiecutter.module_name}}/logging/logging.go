@@ -44,29 +44,33 @@ func NewZapLogger(debug bool) (*zap.Logger, error) {
 		config = zap.Config{
 			Level:            zap.NewAtomicLevelAt(zap.InfoLevel),
 			Development:      false,
-			Encoding:         "console",
+			Encoding:         "json",
 			OutputPaths:      []string{"stderr"},
 			ErrorOutputPaths: []string{"stderr"},
 		}
 	}
 
 	config.EncoderConfig = zapcore.EncoderConfig{
-		TimeKey:          "T",
-		LevelKey:         "L",
-		NameKey:          "N",
-		CallerKey:        zapcore.OmitKey,
-		FunctionKey:      zapcore.OmitKey,
-		MessageKey:       "M",
+		TimeKey:          "time",
+		LevelKey:         "level",
+		NameKey:          "name",
+		CallerKey:        "caller",
+		FunctionKey:      "function",
+		MessageKey:       "message",
 		StacktraceKey:    zapcore.OmitKey,
-		ConsoleSeparator: " ",
+		ConsoleSeparator: "|",
 		LineEnding:       zapcore.DefaultLineEnding,
 		EncodeLevel:      zapcore.CapitalColorLevelEncoder,
 		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
-			enc.AppendString(t.Format(time.RFC3339))
+			enc.AppendString(t.Format(time.RFC3339Nano))
 		},
 		EncodeName: func(loggerName string, enc zapcore.PrimitiveArrayEncoder) {
-			// Print logger name in cyan (ANSI code 36).
-			enc.AppendString(fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(36), "["+loggerName+"]"))
+			if debug {
+				// Print logger name in cyan (ANSI code 36).
+				enc.AppendString(fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(36), "["+loggerName+"]"))
+			} else {
+				enc.AppendString("[" + loggerName + "]")
+			}
 		},
 		EncodeDuration: zapcore.StringDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,

@@ -32,8 +32,7 @@ func main() {
 			&cli.StringFlag{
 				Name:    "config",
 				Aliases: []string{"c"},
-				Usage:   "config filename",
-				Value:   "config.yaml",
+				Usage:   "config key or config file name",
 			},
 		},
 		Before: func(c *cli.Context) error {
@@ -61,10 +60,18 @@ func main() {
 				return cli.Exit("failed to load config", 1)
 			}
 
+			{% if cookiecutter.database == "mysql" %}
+			err = db.InitMysql(config.GlobalConfig.DatabaseURL, debug)
+			if err != nil {
+				return cli.Exit("failed to initial MySQL database", 1)
+			}
+			{% else %}
 			err = db.InitPostgres(config.GlobalConfig.DatabaseURL, debug)
 			if err != nil {
 				return cli.Exit("failed to initial PostgreSQL database", 1)
 			}
+			{% endif %}
+
 			return nil
 		},
 	}
