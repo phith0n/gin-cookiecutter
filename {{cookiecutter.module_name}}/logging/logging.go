@@ -60,20 +60,18 @@ func NewZapLogger(debug bool) (*zap.Logger, error) {
 		StacktraceKey:    zapcore.OmitKey,
 		ConsoleSeparator: "|",
 		LineEnding:       zapcore.DefaultLineEnding,
-		EncodeLevel:      zapcore.CapitalColorLevelEncoder,
 		EncodeTime: func(t time.Time, enc zapcore.PrimitiveArrayEncoder) {
 			enc.AppendString(t.Format(time.RFC3339Nano))
 		},
-		EncodeName: func(loggerName string, enc zapcore.PrimitiveArrayEncoder) {
-			if debug {
-				// Print logger name in cyan (ANSI code 36).
-				enc.AppendString(fmt.Sprintf("\x1b[%dm%s\x1b[0m", uint8(36), "["+loggerName+"]"))
-			} else {
-				enc.AppendString("[" + loggerName + "]")
-			}
-		},
+		EncodeName:     zapcore.FullNameEncoder,
 		EncodeDuration: zapcore.StringDurationEncoder,
 		EncodeCaller:   zapcore.ShortCallerEncoder,
+	}
+
+	if debug {
+		config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+	} else {
+		config.EncoderConfig.EncodeLevel = zapcore.LowercaseLevelEncoder
 	}
 
 	l, err := config.Build()
