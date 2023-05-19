@@ -51,17 +51,17 @@ func (l *CustomLogger) Trace(ctx context.Context, begin time.Time, fc func() (sq
 	case err != nil && l.BaseLevel >= dbLogger.Error && (!errors.Is(err, gorm.ErrRecordNotFound) || !l.IgnoreRecordNotFoundError):
 		sql, rows := fc()
 		if rows == -1 {
-			l.Info(ctx, "%s %v [%.3fms] %s", utils.FileWithLineNum(), err, float64(elapsed.Nanoseconds())/1e6, sql)
+			l.Error(ctx, "%s %v [%.3fms] %s", utils.FileWithLineNum(), err, float64(elapsed.Nanoseconds())/1e6, sql)
 		} else {
-			l.Info(ctx, "%s %v [%.3fms] [rows:%v] %s", utils.FileWithLineNum(), err, float64(elapsed.Nanoseconds())/1e6, rows, sql)
+			l.Error(ctx, "%s %v [%.3fms] [rows:%v] %s", utils.FileWithLineNum(), err, float64(elapsed.Nanoseconds())/1e6, rows, sql)
 		}
 	case elapsed > l.SlowThreshold && l.SlowThreshold != 0 && l.BaseLevel >= dbLogger.Warn:
 		sql, rows := fc()
 		slowLog := fmt.Sprintf("SLOW SQL >= %v", l.SlowThreshold)
 		if rows == -1 {
-			l.Info(ctx, "%s %s [%.3fms] %s", utils.FileWithLineNum(), slowLog, float64(elapsed.Nanoseconds())/1e6, sql)
+			l.Warn(ctx, "%s %s [%.3fms] %s", utils.FileWithLineNum(), slowLog, float64(elapsed.Nanoseconds())/1e6, sql)
 		} else {
-			l.Info(ctx, "%s %s [%.3fms] [rows:%v] %s", utils.FileWithLineNum(), slowLog, float64(elapsed.Nanoseconds())/1e6, rows, sql)
+			l.Warn(ctx, "%s %s [%.3fms] [rows:%v] %s", utils.FileWithLineNum(), slowLog, float64(elapsed.Nanoseconds())/1e6, rows, sql)
 		}
 	case l.BaseLevel == dbLogger.Info:
 		sql, rows := fc()

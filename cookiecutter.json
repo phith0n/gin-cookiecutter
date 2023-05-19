@@ -1,4 +1,5 @@
 {
   "project_name": "My Gin Project",
-  "module_name": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}"
+  "module_name": "{{ cookiecutter.project_name.lower()|replace(' ', '_')|replace('-', '_')|replace('.', '_')|trim() }}",
+  "database": ["mysql", "postgres"]
 }
