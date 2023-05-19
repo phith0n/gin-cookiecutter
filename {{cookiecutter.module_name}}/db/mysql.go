@@ -3,7 +3,7 @@ package db
 import (
 	"time"
 
-	"heimdall/logging"
+	"spctl3/logging"
 
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
