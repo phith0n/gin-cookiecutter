@@ -31,26 +31,7 @@ func InitLogger(debug bool) error {
 
 func NewZapLogger(debug bool) (*zap.Logger, error) {
 	var config zap.Config
-
-	if debug {
-		config = zap.Config{
-			Level:            zap.NewAtomicLevelAt(zap.DebugLevel),
-			Development:      true,
-			Encoding:         "console",
-			OutputPaths:      []string{"stderr"},
-			ErrorOutputPaths: []string{"stderr"},
-		}
-	} else {
-		config = zap.Config{
-			Level:            zap.NewAtomicLevelAt(zap.InfoLevel),
-			Development:      false,
-			Encoding:         "json",
-			OutputPaths:      []string{"stderr"},
-			ErrorOutputPaths: []string{"stderr"},
-		}
-	}
-
-	config.EncoderConfig = zapcore.EncoderConfig{
+	var encoderConfig = zapcore.EncoderConfig{
 		TimeKey:          "time",
 		LevelKey:         "level",
 		NameKey:          "name",
@@ -69,9 +50,25 @@ func NewZapLogger(debug bool) (*zap.Logger, error) {
 	}
 
 	if debug {
-		config.EncoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+		encoderConfig.EncodeLevel = zapcore.CapitalColorLevelEncoder
+		config = zap.Config{
+			Level:            zap.NewAtomicLevelAt(zap.DebugLevel),
+			Development:      true,
+			Encoding:         "console",
+			OutputPaths:      []string{"stderr"},
+			ErrorOutputPaths: []string{"stderr"},
+			EncoderConfig:    encoderConfig,
+		}
 	} else {
-		config.EncoderConfig.EncodeLevel = zapcore.LowercaseLevelEncoder
+		encoderConfig.EncodeLevel = zapcore.LowercaseLevelEncoder
+		config = zap.Config{
+			Level:            zap.NewAtomicLevelAt(zap.InfoLevel),
+			Development:      false,
+			Encoding:         "json",
+			OutputPaths:      []string{"stderr"},
+			ErrorOutputPaths: []string{"stderr"},
+			EncoderConfig:    encoderConfig,
+		}
 	}
 
 	l, err := config.Build()
