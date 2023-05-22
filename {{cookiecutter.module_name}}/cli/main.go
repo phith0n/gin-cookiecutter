@@ -36,28 +36,32 @@ func main() {
 			},
 		},
 		Before: func(c *cli.Context) error {
+			configFile := c.String("config")
+			err := config.InitConfig(configFile)
+			if err != nil {
+				return cli.Exit("failed to load config", 1)
+			}
+
 			debug := c.Bool("debug")
-			err := logging.InitLogger(debug)
+			if debug {
+				config.GlobalConfig.Debug = true
+			}
+
+			err = logging.InitLogger(config.GlobalConfig.Debug)
 			if err != nil {
 				return err
 			}
-			logger.Infof("debug mode = %v", debug)
+			logger.Infof("debug mode = %v", config.GlobalConfig.Debug)
 
 			// exit before function and generate initial config file
 			if funk.ContainsString(os.Args, "genconfig") {
 				return nil
 			}
 
-			if debug {
+			if config.GlobalConfig.Debug {
 				gin.SetMode(gin.DebugMode)
 			} else {
 				gin.SetMode(gin.ReleaseMode)
-			}
-
-			configFile := c.String("config")
-			err = config.InitConfig(configFile)
-			if err != nil {
-				return cli.Exit("failed to load config", 1)
 			}
 
 			{% if cookiecutter.database == "mysql" %}
