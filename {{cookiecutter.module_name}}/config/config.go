@@ -18,14 +18,12 @@ type Config struct {
 func InitConfig(filename string) error {
 	data, err := os.ReadFile(filename)
 	if err != nil {
-		logger.Errorf("failed to read config file %s: %v", filename, err)
-		return err
+		return fmt.Errorf("failed to read config file %s: %v", filename, err)
 	}
 
 	err = yaml.Unmarshal(data, &GlobalConfig)
 	if err != nil {
-		logger.Errorf("failed to unmarshal config file %s: %v", filename, err)
-		return err
+		return fmt.Errorf("failed to unmarshal config file %s: %v", filename, err)
 	}
 
 	return nil
